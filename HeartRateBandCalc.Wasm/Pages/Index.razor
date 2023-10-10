@@ -1,4 +1,7 @@
-﻿@page "/"
+﻿@inject IHeartService HeartService
+
+@page "/"
+@using HeartRateBandCalc.Wasm.Services
 <MudContainer Class="d-flex flex-column">
     <MudForm>
         <MudSlider @bind-Value="@MinHeartRate" ValueLabel="true" Min="30" Max="90" Color="Color.Primary" T="int"/>
@@ -53,26 +56,19 @@
 
     private void UpdateRange()
     {
-        _ut2Min = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.55);
-        _ut2Max = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.7);
+        _ut2Min = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.55);
+        _ut2Max = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.7);
         
-        _ut1Min = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.7);
-        _ut1Max = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.8);
+        _ut1Min = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.7);
+        _ut1Max = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.8);
         
-        _atMin = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.8);
-        _atMax = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.85);
+        _atMin = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.8);
+        _atMax = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.85);
         
-        _trMin = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.85);
-        _trMax = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.95);
+        _trMin = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.85);
+        _trMax = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.95);
         
-        _anMin = CalcKarvonen(_minHeartRate, _maxHeartRate, 0.95);
-        _anMax = CalcKarvonen(_minHeartRate, _maxHeartRate, 1);
-    }
-
-    private int CalcKarvonen(int restingHeartRate,
-        int maxHeartRate,
-        double factor)
-    {
-        return (int)(restingHeartRate + (maxHeartRate - restingHeartRate) * factor);
+        _anMin = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.95);
+        _anMax = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 1);
     }
 }
