@@ -7,68 +7,19 @@
         <MudSlider @bind-Value="@MinHeartRate" ValueLabel="true" Min="30" Max="90" Color="Color.Primary" T="int"/>
         <MudTextField @bind-Value="@MinHeartRate" T="int" Variant="Variant.Text" Label="Resting Heart Rate"/>
 
-        <MudTextField @bind-Value="@MaxHeartRate" T="int" Variant="Variant.Text" Label="Maximum Heart Rate"/>
-        <MudSlider @bind-Value="@MaxHeartRate" Min="140" Max="220" Color="Color.Primary" T="int"/>
+        <MudCheckBox bind-Value="@useKarvonen" T="bool" Label="Use Karvonen"/>
+
+        <MudTextField @bind-Value="@MaxHeartRate" T="int" Variant="Variant.Text"
+                      @bind-Disabled="@useKarvonen"
+                      Label="Maximum Heart Rate"/>
+        <MudSlider @bind-Value="@MaxHeartRate" Min="140" Max="220" Color="Color.Primary" T="int"
+                   @bind-Disabled="@useKarvonen"/>
     </MudForm>
 
     <MudText Typo="Typo.h2">UT2 Band: @_ut2Min-@_ut2Max</MudText>
     <MudText Typo="Typo.h2">UT1 Band: @_ut1Min-@_ut1Max</MudText>
     <MudText Typo="Typo.h2">AT Band: @_atMin-@_atMax</MudText>
     <MudText Typo="Typo.h2">TR Band: @_trMin-@_trMax</MudText>
-    <MudText Typo="Typo.h2">AN Band: @_anMin-@_anMax</MudText></MudContainer>
-
-@code
-{
-    private int _minHeartRate = 60;
-
-    private int MinHeartRate
-    {
-        get => _minHeartRate;
-        set
-        {
-            _minHeartRate = value;
-            UpdateRange();
-        }
-    }
-
-    private int _maxHeartRate = 180;
-
-    private int MaxHeartRate
-    {
-        get => _maxHeartRate;
-        set
-        {
-            _maxHeartRate = value;
-            UpdateRange();
-        }
-    }
-
-    private int _ut2Min;
-    private int _ut2Max;
-    private int _ut1Min;
-    private int _ut1Max;
-    private int _atMin;
-    private int _atMax;
-    private int _trMin;
-    private int _trMax;
-    private int _anMin;
-    private int _anMax;
-
-    private void UpdateRange()
-    {
-        _ut2Min = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.55);
-        _ut2Max = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.7);
-        
-        _ut1Min = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.7);
-        _ut1Max = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.8);
-        
-        _atMin = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.8);
-        _atMax = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.85);
-        
-        _trMin = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.85);
-        _trMax = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.95);
-        
-        _anMin = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 0.95);
-        _anMax = HeartService.CalculateKarvonen(_minHeartRate, _maxHeartRate, 1);
-    }
-}
+    <MudText Typo="Typo.h2">AN Band: @_anMin-@_anMax</MudText>
+</MudContainer>
+    
